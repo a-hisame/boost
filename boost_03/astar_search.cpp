@@ -14,20 +14,20 @@
 #include<boost/graph/astar_search.hpp>
 
 // euclidean distance heuristic
-template <class Graph, class Vertex, class CostType>
-class distance_heuristic : public boost::astar_heuristic<Graph, CostType>
+template <class Graph, class Vertex>
+class distance_heuristic : public boost::astar_heuristic<Graph, int>
 {
   typedef typename 
     boost::property_map<Graph, boost::vertex_distance_t>::const_type PosMap;
 public:
   distance_heuristic(PosMap pos_map, Vertex goal) : 
 	  m_pos_map(pos_map), m_goal(goal) {}
-  CostType operator()(Vertex u)
+  int operator()(Vertex u)
   {
     auto p1 = m_pos_map[m_goal];
     auto p2 = m_pos_map[u];
-    CostType dx = abs(p1.first - p2.first);
-    CostType dy = abs(p1.second - p2.second);
+    int dx = abs(p1.first - p2.first);
+    int dy = abs(p1.second - p2.second);
     return dx + dy; 
   }
 private:
@@ -136,7 +136,7 @@ std::list<Pos> get_shortest_path(const Graph& g) {
   std::vector<Vertex> parents(boost::num_vertices(g));
   try {
     boost::astar_search(g, ps.first, 
-      distance_heuristic<Graph, Vertex, int>(
+      distance_heuristic<Graph, Vertex>(
         boost::get(boost::vertex_distance_t(), g), ps.second),
         boost::predecessor_map(&parents[0]).
 	visitor(goal_visitor<Vertex>(ps.second)));
