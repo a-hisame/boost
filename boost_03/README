@@ -1,1 +1,7 @@
 Boost.勉強会#3にて（学習、発表）に使用したファイルです。
+- environment: Windows XP(SP3) + MinGW gcc 4.5 + boost1.4.4
+- compile: g++ -std=gnu++0x -enable-auto-import [source] 
+
+最短経路問題についての問題元：
+http://okajima.air-nifty.com/b/2010/01/post-abc6.html
+問題(in1.txt)も上記からの引用です。
