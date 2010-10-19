@@ -51,15 +51,16 @@ Graph make_graph(std::vector<std::string> in) {
     for(int j = 0; j < s.size(); ++j) {
       if(s[j] == '*') continue;
       Vertex v = boost::add_vertex(g);
-      pos_map[v] = Pos(j, i); // (x, y) style.
+      boost::put(pos_map, v, Pos(j, i));
+//       pos_map[v] = Pos(j, i); // (x, y) style.
       color_map[v] = (s[j] == 'S') ? Start :
                      (s[j] == 'G') ? Goal : None;
     }
   }
 
   auto edge_map = boost::get(boost::edge_weight_t(), g);
-  BOOST_FOREACH(auto s, vertices(g)) {
-    BOOST_FOREACH(auto t, vertices(g)) {
+  BOOST_FOREACH(auto s, boost::vertices(g)) {
+    BOOST_FOREACH(auto t, boost::vertices(g)) {
       auto p1 = pos_map[s];
       auto p2 = pos_map[t];
       if( abs(p1.first-p2.first) + abs(p1.second-p2.second) == 1 ) {
